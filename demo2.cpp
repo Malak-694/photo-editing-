@@ -57,7 +57,9 @@ void saveImage () {
 void doSomethingForImage() {
   for (int i = 0; i < SIZE; i++) {
     for (int j = 0; j< SIZE; j++) {
-        if(image[i][j] +((255-image[i][j])/2 )< 255) image[i][j] += (255-image[i][j])/2;
+        if(image[i][j]- (image[i][j]/2)> 0) {
+            image[i][j] -= (image[i][j] / 2);
+        }
         //else image[i][j]+=(255-image[i][j]);
 
 
