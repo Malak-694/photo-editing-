@@ -161,7 +161,7 @@ void rotate270(){
     rotate90();
 }
 //____________________________________________________
-void detect_edges() {
+void crop_edges() {
 
 
     for (int i = 0; i < SIZE; ++i) {
