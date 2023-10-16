@@ -125,6 +125,8 @@ void flip_image() {
         }
     }
 }
+
+        
 //____________________________________________________
 
 void rotate90() {
@@ -175,7 +177,7 @@ void detect_edges() {
     }
 
 }
-//---------------------------------------------
+//------------------------------------------
 void enlarge(int k) {
     // k is variable to determine the quad of image
     if (k == 1) { // first quad
@@ -411,6 +413,7 @@ void crop_image() {
 
     }}
 //--------------------------------------------------------------
+
 void skew_horizontal(double k){
     // continue
     double pi=2*acos(0.0);// to get pi accurate value
