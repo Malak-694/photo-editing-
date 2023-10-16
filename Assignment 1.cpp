@@ -33,7 +33,7 @@ void rotate90 ();
 void rotate180 ();
 void rotate270 ();
 void LightOrDark();
-void Crop_Image();
+void detect_edges();
 void enlarge (int k);
 void shrink();
 void Mirror_Image ();
@@ -126,6 +126,7 @@ void flip_image() {
     }
 }
 //____________________________________________________
+
 void rotate90() {
     for (int i = 0; i < SIZE; i++) {
         for (int j = i; j < SIZE; j++) {
@@ -161,7 +162,7 @@ void rotate270(){
     rotate90();
 }
 //____________________________________________________
-void crop_edges() {
+void detect_edges() {
 
 
     for (int i = 0; i < SIZE; ++i) {
@@ -174,7 +175,7 @@ void crop_edges() {
     }
 
 }
-//_________________________________________
+//---------------------------------------------
 void enlarge(int k) {
     // k is variable to determine the quad of image
     if (k == 1) { // first quad
@@ -261,7 +262,7 @@ void  Mirror_Image () {
         }
     }
 }
-//_________________________________________
+//--------------------------------------------------
 void shuffle (int k, int b, int a, int s){
     // k b a s is my quarters order
     for (int i = 0 , t=0,y=127,n=127 , B=0; i < 127,t<127,y<SIZE,n<SIZE , B<128; ++i,++t,++y,++n,B++) {
@@ -409,7 +410,7 @@ void crop_image() {
         }
 
     }}
-//------------------------------------------------------
+//--------------------------------------------------------------
 void skew_horizontal(double k){
     // continue
     double pi=2*acos(0.0);// to get pi accurate value
@@ -520,15 +521,15 @@ void skew_vertical45(){
 //------------------------------------------------------
 bool menu(){
     // function to resending menu till user type 0
-    char m,n;
+    char m,n,s;
     int a,b,c,d;
     double q;
-    cout<<"please choose filter from 0 to s:\n";
-    cout<<"1-Black and White Filter\n"<<"2-Invert Filter\n"<<"3-Merge Filter\n"<<"4-Flip Filter\n"<<"5-Rotating Filter\n"<<"6-Darken and Lighten Filter\n"<<"7-Detect Edges\n8-Enlarge Image\n9-Shrink Image\na-Mirror Image\nb-Shuffle Image\nc-Blur Image\nd-Crop Image\ne-Skew Horizontal\nf-Skew Vertical\n"<<"s-Save image to file\n"<<"0-Exit\n";
+    cout<<"please choose filter from 0 to 7:\n";
+    cout<<"1-Black and White Filter\n"<<"2-Invert Filter\n"<<"3-Merge Filter\n"<<"4-Flip Filter\n"<<"5-Rotating Filter\n"<<"6-Darken and Lighten Filter\n"<<"s-Save image to file\n"<<"0-Exit\n";
     cin>>m;
     switch(m){
         case '1':
-            //function name حطيه يا هديل
+            Black_White();
             return true;
             break;
         case '2':
@@ -536,36 +537,33 @@ bool menu(){
             return true;
             break;
         case '3':
-            //function name حطيه يا هديل
+            merge_image();
             return true;
             break;
         case '4':
-            //function name حطيه يا هديل
+            flip_image();
             return true;
             break;
         case '5':
             cout<<"choose one of directions\n 1-90\n 2-180\n 3-270\n";
             cin>>n;
             if(n=='1') {
-                load_Image();
                 rotate90();
             }
             else if (n=='2'){
-                load_Image();
                 rotate180();
             }
             else if (n=='3'){
-                load_Image();
                 rotate270();
             }
             return true;
             break;
         case '6':
-            //function name حطيه يا هديل
+            LightOrDark();
             return true;
             break;
         case '7':
-            //function name حطيه يا هديل
+            detect_edges();
             return true;
             break;
         case '8':
@@ -575,11 +573,11 @@ bool menu(){
             return true;
             break;
         case '9':
-            //function name حطيه يا هديل
+            shrink();
             return true;
             break;
         case 'a':
-            //function name حطيه يا هديل
+            Mirror_Image();
             return true;
             break;
         case 'b':
@@ -589,11 +587,11 @@ bool menu(){
             return true;
             break;
         case 'c':
-            //function name حطيه يا هديل
+            Blur();
             return true;
             break;
         case 'd':
-            //function name حطيه يا هديل
+            crop_image();
             return true;
             break;
         case 'e':
@@ -616,16 +614,18 @@ bool menu(){
             break;
         case 's':
             save_Image();
-            cout<<"if you want to save image and load another one click 1\nif you want to save image then stop 2\n";
-            cin>>n;
-            if(n=='1') {
+            cout<<"Choose :\nn-New Image and More filters\ne- Exit";
+            cin>>s;
+            if (s =='n'){
                 load_Image();
-            }
-            else
                 return true;
-            return true;
-            break;
+            }
+            else{return false;}
+
         case '0':
             return false;
     }
 }
+      
+         
+           
