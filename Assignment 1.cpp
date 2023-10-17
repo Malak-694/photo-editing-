@@ -93,6 +93,37 @@ void Black_White() {
         }
     }
 }
+//---------------------------------
+void Blur(){
+     unsigned char n[SIZE][SIZE];
+    int i,j;
+    for (i = 0; i < 256; i++) {
+        for (j = 0; j < 256; j++) {
+            int sum = image[i][j];
+            int count = 1;
+            int x,y;
+            // calculate the average of the surrounding pixels and then divide the sum on the number of them 
+            for ( x = -2; x <= 2; x++) {
+                for ( y = -2;y <= 2; y++) {
+                    if (i + x >= 0 && i + x < 256 && j + y >= 0 && j + y < 256) {
+                        sum += image[i + x][j + y];
+                        count++;
+                    }
+                }
+            }
+
+            n[i][j] = sum / count;
+        }
+    }
+
+
+    for ( i = 0; i < SIZE; i++) {
+        for (j = 0; j < SIZE; j++) {
+                image[i][j] = n[i][j];
+
+        }
+    }
+}
 //__________________________________________
 void Invert() {
     for (int i = 0; i < SIZE; i++) {
