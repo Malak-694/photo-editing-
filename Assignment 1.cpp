@@ -32,10 +32,10 @@ void flip_image();
 void rotate90 ();
 void rotate180 ();
 void rotate270 ();
-void LightOrDark();
+void LightOrDark(string s);
 void detect_edges();
 void enlarge (int k);
-void shrink();
+void shrink(string s);
 void Mirror_Image ();
 void shuffle (int k,int b, int a, int s);
 void Blur();
@@ -146,6 +146,38 @@ void rotate90() {
             image[i][j]=image[i][SIZE-j-1];
             image[i][SIZE-j-1]=temp;
             // reverse the matrix
+        }
+    }
+}
+//--------------------------------------
+void LightOrDark(string c){
+    if(c=="d"){
+        for (int i = 0; i < SIZE; i++) {
+    for (int j = 0; j< SIZE; j++) {
+//divide the color by 2 so it can be more darker since black is equal to 0
+        if(image[i][j]- (image[i][j]/2)> 0) {
+            image[i][j] -= (image[i][j] / 2);
+        }
+        //else image[i][j]+=(255-image[i][j]);
+
+
+/* Example code to convert to BW the image
+   A better version should NOt use 127 but the
+   average of the pixels*/
+
+
+// do something with the image
+    }
+  }
+    }
+    else{
+         for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+//divide the color by 2, so it can be darker since black is equal to 0
+            if(image[i][j]- (image[i][j]/2)> 0) {
+                image[i][j] -= (image[i][j] / 2);
+              }
+           }
         }
     }
 }
@@ -521,6 +553,88 @@ void skew_vertical45(){
             // to copy new image in old one
             image[i][j] = imageT[i][j];
 }
+//----------------------------------------------------
+void shrink(string s){
+       int i,j;
+    int x=0;
+    unsigned char n[SIZE][SIZE];
+    if(s=="1/2"){
+
+
+
+//calculate the sum of surrounding 4 pixels and put them in targeted pixel then move by 2
+        for (i = 0; i < SIZE-1; i+=2) {
+            int y=0;
+            for ( j = 0; j< SIZE-1; j+=2) {
+                n[x][y]=(image[i][j]+image[i+1][j+1]+image[i][j+1]+image[i+1][j])/4;
+                y++;
+
+            }
+            x++;
+
+        }
+
+    }
+    else if(s=="1/3"){
+//calculate the sum of surrounding 8 pixels and put them in targeted pixel then move by 3
+        for (i = 0; i < SIZE-1; i+=3) {
+            int y=0;
+            for ( j = 0; j< SIZE-1; j+=3) {
+                n[x][y]=(image[i][j]+
+                         image[i][j+1]+
+                         image[i][j+2]+
+                         image[i+1][j]+
+                         image[i+1][j+1]+
+                         image[i+1][j+2]+
+                         image[i+2][j]+
+                         image[i+2][j+1]+
+                         image[i+2][j+2]
+                        )/9;
+
+                y++;
+
+            }
+            x++;
+
+        }
+    }else{
+//calculate the sum of surrounding 15 pixels and put them in targeted pixel then move by 4
+        for (i = 0; i < SIZE-1; i+=4) {
+            int y=0;
+            for ( j = 0; j< SIZE-1; j+=4) {
+                n[x][y]=(image[i][j]+
+                         image[i][j+1]+
+                         image[i][j+2]+
+                         image[i][j+3]+
+                         image[i+1][j]+
+                         image[i+1][j+1]+
+                         image[i+1][j+2]+
+                         image[i+1][j+3]+
+                         image[i+2][j]+
+                         image[i+2][j+1]+
+                         image[i+2][j+2]+
+                         image[i+2][j+3]+
+                         image[i+3][j]+
+                         image[i+3][j+1]+
+                         image[i+3][j+2]+
+                         image[i+3][j+3]
+                        )/16;
+                y++;
+
+            }
+            x++;
+
+        }
+    }
+    for ( i = 0; i < SIZE; i++) {
+        for (j = 0; j < SIZE; j++) {
+            if (i < 64 && j < 64) {
+                image[i][j] = n[i][j];
+            } else
+                image[i][j] = 255;
+        }
+    }
+}
 //------------------------------------------------------
 bool menu(){
     // function to resending menu till user type 0
@@ -562,6 +676,10 @@ bool menu(){
             return true;
             break;
         case '6':
+            string bright;
+            cout<<"Do you want to (d)arken or (l)ighten?";
+            cin>>bright;
+            LightOrDark(bright);
             LightOrDark();
             return true;
             break;
@@ -576,7 +694,10 @@ bool menu(){
             return true;
             break;
         case '9':
-            shrink();
+            string g;
+            cout<<"Shrink to (1/2), (1/3) or (1/4)?";
+            cin>>g;
+            shrink(g);
             return true;
             break;
         case 'a':
