@@ -149,6 +149,17 @@ void rotate90() {
         }
     }
 }
+//---------------------------
+void merge_image(){
+       for (int i = 0; i < SIZE; i++) {
+    for (int j = 0; j< SIZE; j++) {
+       // calculate the sum of the 2 pixles and divide it by 2
+       image[i][j]= (image[i][j]+photo[i][j])/2;
+
+
+    }
+  }
+}
 //--------------------------------------
 void LightOrDark(string c){
     if(c=="d"){
