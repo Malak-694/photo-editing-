@@ -214,12 +214,10 @@ void LightOrDark(string c){
     }
     else{
          for (int i = 0; i < SIZE; i++) {
-        for (int j = 0; j< SIZE; j++) {
-//divide the color by 2, so it can be darker since black is equal to 0
-            if(image[i][j]- (image[i][j]/2)> 0) {
-                image[i][j] -= (image[i][j] / 2);
-              }
-           }
+    for (int j = 0; j< SIZE; j++) {
+        if(image[i][j]+ ((255-image[i][j])/2)< 255) {
+//increase the value of the pixel by the half of the remaining in order not to have an overflow 
+            image[i][j]+= ((255-image[i][j])/2);
         }
     }
 }
