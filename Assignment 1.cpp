@@ -613,6 +613,14 @@ void shrink(string s){
             x++;
 
         }
+        for ( i = 0; i < SIZE; i++) {
+        for (j = 0; j < SIZE; j++) {
+            if (i < 128 && j < 128) {
+                image[i][j] = n[i][j];
+            } else
+                image[i][j] = 255;
+        }
+    }
 
     }
     else if(s=="1/3"){
@@ -637,6 +645,14 @@ void shrink(string s){
             x++;
 
         }
+        for ( i = 0; i < SIZE; i++) {
+        for (j = 0; j < SIZE; j++) {
+            if (i < 85 && j < 85) {
+                image[i][j] = n[i][j];
+            } else
+                image[i][j] = 255;
+        }
+    }
     }else{
 //calculate the sum of surrounding 15 pixels and put them in targeted pixel then move by 4
         for (i = 0; i < SIZE-1; i+=4) {
@@ -665,8 +681,7 @@ void shrink(string s){
             x++;
 
         }
-    }
-    for ( i = 0; i < SIZE; i++) {
+        for ( i = 0; i < SIZE; i++) {
         for (j = 0; j < SIZE; j++) {
             if (i < 64 && j < 64) {
                 image[i][j] = n[i][j];
@@ -674,6 +689,8 @@ void shrink(string s){
                 image[i][j] = 255;
         }
     }
+    }
+    
 }
 //------------------------------------------------------
 bool menu(){
