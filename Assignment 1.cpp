@@ -35,7 +35,7 @@ void rotate270 ();
 void LightOrDark(string s);
 void detect_edges();
 void enlarge (int k);
-void shrink(string s);
+void shrink(int e);
 void Mirror_Image ();
 void shuffle (int k,int b, int a, int s);
 void Blur();
@@ -594,104 +594,38 @@ void skew_vertical45(){
             image[i][j] = imageT[i][j];
 }
 //----------------------------------------------------
-void shrink(string s){
-       int i,j;
-    int x=0;
+void doSomethingForImage2(int e) {
     unsigned char n[SIZE][SIZE];
-    if(s=="1/2"){
-
-
-
+    int x=0;
+    int i,j;
 //calculate the sum of surrounding 4 pixels and put them in targeted pixel then move by 2
-        for (i = 0; i < SIZE-1; i+=2) {
-            int y=0;
-            for ( j = 0; j< SIZE-1; j+=2) {
-                n[x][y]=(image[i][j]+image[i+1][j+1]+image[i][j+1]+image[i+1][j])/4;
-                y++;
-
+    for (i = 0; i < SIZE-1; i+=e) {
+        int y=0;
+        for ( j = 0; j< SIZE-1; j+=e) {
+            int sum=0, count=0;
+            for(int w=0; w<e ;w++){
+                for(int z=0 ; z<e; z++) {
+                    sum += image[i+w][j+z];
+                    count++;
+                    //cout<<count<<" ";
+                }
             }
-            x++;
+            n[x][y]=sum/count;
+            y++;
 
         }
-        for ( i = 0; i < SIZE; i++) {
+        x++;
+
+    }
+    for ( i = 0; i < SIZE; i++) {
         for (j = 0; j < SIZE; j++) {
-            if (i < 128 && j < 128) {
+            if (i < 255/e && j < 255/e) {
                 image[i][j] = n[i][j];
             } else
                 image[i][j] = 255;
         }
-    }
+    }}
 
-    }
-    else if(s=="1/3"){
-//calculate the sum of surrounding 8 pixels and put them in targeted pixel then move by 3
-        for (i = 0; i < SIZE-1; i+=3) {
-            int y=0;
-            for ( j = 0; j< SIZE-1; j+=3) {
-                n[x][y]=(image[i][j]+
-                         image[i][j+1]+
-                         image[i][j+2]+
-                         image[i+1][j]+
-                         image[i+1][j+1]+
-                         image[i+1][j+2]+
-                         image[i+2][j]+
-                         image[i+2][j+1]+
-                         image[i+2][j+2]
-                        )/9;
-
-                y++;
-
-            }
-            x++;
-
-        }
-        for ( i = 0; i < SIZE; i++) {
-        for (j = 0; j < SIZE; j++) {
-            if (i < 85 && j < 85) {
-                image[i][j] = n[i][j];
-            } else
-                image[i][j] = 255;
-        }
-    }
-    }else{
-//calculate the sum of surrounding 15 pixels and put them in targeted pixel then move by 4
-        for (i = 0; i < SIZE-1; i+=4) {
-            int y=0;
-            for ( j = 0; j< SIZE-1; j+=4) {
-                n[x][y]=(image[i][j]+
-                         image[i][j+1]+
-                         image[i][j+2]+
-                         image[i][j+3]+
-                         image[i+1][j]+
-                         image[i+1][j+1]+
-                         image[i+1][j+2]+
-                         image[i+1][j+3]+
-                         image[i+2][j]+
-                         image[i+2][j+1]+
-                         image[i+2][j+2]+
-                         image[i+2][j+3]+
-                         image[i+3][j]+
-                         image[i+3][j+1]+
-                         image[i+3][j+2]+
-                         image[i+3][j+3]
-                        )/16;
-                y++;
-
-            }
-            x++;
-
-        }
-        for ( i = 0; i < SIZE; i++) {
-        for (j = 0; j < SIZE; j++) {
-            if (i < 64 && j < 64) {
-                image[i][j] = n[i][j];
-            } else
-                image[i][j] = 255;
-        }
-    }
-    }
-    
-}
 //------------------------------------------------------
 bool menu(){
     // function to resending menu till user type 0
@@ -751,10 +685,12 @@ bool menu(){
             return true;
             break;
         case '9':
-            string g;
+            string s;
             cout<<"Shrink to (1/2), (1/3) or (1/4)?";
-            cin>>g;
-            shrink(g);
+            cin>>s;
+        if(s=="1/2") doSomethingForImage2(2);
+    else if (s=="1/3") doSomethingForImage2(3);
+    else doSomethingForImage2(4);
             return true;
             break;
         case 'a':
